@@ -93,8 +93,7 @@ void Card::printCard() const{
  * Output: None
  */
 void Card::toString() const{
-	cout << "Suit : " << cardSuit
-		 << " Value : " << cardValue;
+	cout << "\n" << cardSuit << cardValue;
 }
 
 /*
