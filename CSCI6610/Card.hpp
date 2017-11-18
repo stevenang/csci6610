@@ -31,7 +31,7 @@ public:
 	char getCardValue() const {return cardValue;}
 	int getCardRank(bool isAceSpCase) const;
 	void printCard() const;
-	void toString() const;
+	string toString() const;
 	int getHiLoValue() const;
 };
 #endif /* CARD_HPP_ */

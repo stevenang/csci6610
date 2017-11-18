@@ -9,7 +9,8 @@
 //#pragma once
 #include "Card.hpp"
 
-const char* cardSuites[4] = {"Spade", "Club", "Heart", "Diamond"};
+const char* cardSuites[4] = {"\u2660", "\u2663", "\u2665", "\u2666"};
+		//{"Spade", "Club", "Heart", "Diamond"};
 constexpr char cardValues[13] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T',
 		'A', 'J', 'Q', 'K'};
 
@@ -81,18 +82,25 @@ int Card::getCardRank(bool isAceSpCase) const{
  * Output: None
  */
 void Card::printCard() const{
-	cout << "\n|" << setw(75) << setfill('-') << "|";
-	cout << "" << setw(50) << setfill('-') << endl;
-	cout << "|";
-	cout << "" << setw(48) << setfill('-') << " " ;
-	cout << "|";
+
+		cout  << setw(4) << setfill('*') << "*" ;
+		cout << "\n|";
+		cout << "" << setw(3) << setfill(' ') << left << getCardSuite()
+				<< getCardValue();
+		cout << "|\n";
+		for (int i = 0; i < 2; i++){
+			cout << "|";
+			cout << " " << setw(1) << setfill(' ') << right << " ";
+			cout << "|\n";
+		}
+		cout  << setw(4) << setfill('*') << "*" ;
 }
 /*
  * Prints the card detail as a string
  * Input: None
  * Output: None
  */
-void Card::toString() const{
+string Card::toString() const{
 	cout << "\n" << cardSuit << cardValue;
 }
 
