@@ -36,7 +36,7 @@ public:
     Player();
     Player(const string& name, bool isComputer);
     string allCardToString(bool isDealer, bool showAll) const;
-    void addCard(Card* card) { addCard(card) };
+    void addCard(Card* card) { addCard(card); }
     void bust() const;
     int getTotal() const;
     bool isBlackJack() const;
