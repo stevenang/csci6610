@@ -110,40 +110,18 @@ void Player::bust() const {
 int Player::getTotal() const {
 
     int total;
-    bool isHandContainAce = false;
-
-    // If there is nothing in hand, return 0;
-    if (this->cardsVector.empty()) {
-        return 0;
-    }
-
-    // If first card has value of 0, then means the card is faced down.
-    // Also return 0
-    // TODO Need to discuss
-    if (this->cardsVector[0]->getCardValue() == '0') {
-        return 0;
-    }
 
     // Get the total from the vector of cards
     vector<Card*>::const_iterator iter;
     for (iter = this->cardsVector.begin(); iter < this->cardsVector.end();
          ++ iter) {
-        // Todo Need to discuss with them
-        total = total + (int)((*iter)->getCardValue());
-    }
 
-    // Check whether the hand contains ACE
-    for (iter = this->cardsVector.begin(); iter < this->cardsVector.end();
-         ++ iter) {
-        // Todo Need to change this or add
-        // if ((*iter)->getCardFaceValue() == Card::ACE) {
-        //	isHandContainAce = true;
-        //}
-    }
+        if (total + (*iter)->getCardRank(true) <= 11) {
+            total = total + (*iter)->getCardRank(true);
+        } else {
+            total = total + (*iter)->getCardRank(false);
+        }
 
-    // If hand is low enough (not greater than 21), then treat ace as 10
-    if (isHandContainAce && total <= 11) {
-        total += 10;
     }
 
     return total;
