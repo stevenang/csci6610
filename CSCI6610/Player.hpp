@@ -36,13 +36,14 @@ public:
     Player();
     Player(const string& name, bool isComputer);
     string allCardToString(bool isDealer, bool showAll) const;
-    void addCard(Card* card) { addCard(card); }
+    void addCardToHand(Card* card) { addCard(card); }
     void bust() const;
     int getTotal() const;
     bool isBlackJack() const;
     bool isBusted() const;
     vector <Card*> getCards() { return getCards(); }
-    //virtual bool isHitting() const = 0; // A virtual method which can be overwrite later
+    //virtual bool isHitting() const = 0; // A virtual method which can be overwrite lat
+    void clearHands() { clearHand(); }
     virtual ~Player();
 
 protected:
