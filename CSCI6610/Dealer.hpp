@@ -32,7 +32,7 @@ class Dealer : public Player {
 public:
     Dealer();
     Dealer(const string& name, bool isComputer);
-    bool isHitting() const override;
+    //bool isHitting() const override;
     void lose() const;
     string toString(bool showAll) const;
     void win() const;

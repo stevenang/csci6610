@@ -30,9 +30,9 @@ Dealer::Dealer(const string &name, bool isComputer) {
     this->isComputer = isComputer;
 }
 
-bool Dealer::isHitting() const {
-    return (getTotal() <= 16);
-}
+//bool Dealer::isHitting() const {
+//    return (getTotal() <= 16);
+//}
 
 void Dealer::lose() const {
     cout << "Dealer Lose." << endl;
