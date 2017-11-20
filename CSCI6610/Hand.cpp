@@ -49,7 +49,6 @@ void Hand::clearHand() {
     for (iter = this->cardsVector.begin(); iter != this->cardsVector.end();
          ++iter) {
         delete *iter;
-        // This is to assign iter to null pointer.
     }
 
     // Clear the vector
