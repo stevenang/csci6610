@@ -40,8 +40,8 @@ void Decks::shuffle(){
 
 	generateWhiteMagicNumber(); //After shuffle generate magic number for future shuffle
 
-	cout<<"******************* AFTER shuffle:-********************************************************"<<endl;
-	printAllDeckCards();
+	//cout<<"******************* AFTER shuffle:-********************************************************"<<endl;
+	//printAllDeckCards();
 }
 
 vector<Card*> Decks::getAllDeckCards(){
