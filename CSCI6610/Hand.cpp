@@ -44,13 +44,6 @@ void Hand::addCard(Card* card) {
  * After each trun, user will call cleanHand to reinitialize the vector
  */
 void Hand::clearHand() {
-
-    vector <Card*>::iterator iter = this->cardsVector.begin();
-    for (iter = this->cardsVector.begin(); iter != this->cardsVector.end();
-         ++iter) {
-        delete *iter;
-    }
-
     // Clear the vector
     this->cardsVector.clear();
 }
