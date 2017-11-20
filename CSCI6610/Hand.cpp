@@ -50,7 +50,6 @@ void Hand::clearHand() {
          ++iter) {
         delete *iter;
         // This is to assign iter to null pointer.
-        //*iter = 0;
     }
 
     // Clear the vector
