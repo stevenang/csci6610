@@ -40,7 +40,7 @@ public:
     int getTotal() const;
     bool isBlackJack() const;
     bool isBusted() const;
-    vector <Card> getCard() { return getCard(); }
+    vector <Card> getCards() { return getCards(); }
     //virtual bool isHitting() const = 0; // A virtual method which can be overwrite later
     virtual ~Player();
 

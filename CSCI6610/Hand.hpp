@@ -31,7 +31,7 @@ public:
     void addCard(Card* card);
     void clearHand();
     int getTotalNoOfCards() const { return this->cardsVector.size(); }
-    vector<Card*> const { return this->cardsVector; }
+    vector<Card*> getCards()const { return this->cardsVector; }
     bool hasAce() const { return ace; }
     bool isEmpty() const;
 
