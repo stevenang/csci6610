@@ -46,7 +46,7 @@ public:
     string getStatistic() const;
     int getTieCount() const { return this->tieCount; }
     int getWinCount() const { return this->winCount; }
-    bool isHitting() const override;
+    //bool isHitting() const override;
     void lose() const;
     string toString() const;
     void win() const;

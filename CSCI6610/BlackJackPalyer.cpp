@@ -76,9 +76,9 @@ string BlackJackPalyer::getStatistic() const {
  *
  * @return true if user want to hit
  */
-bool BlackJackPalyer::isHitting() const {
-    return true;
-}
+//bool BlackJackPalyer::isHitting() const {
+//    return true;
+//}
 
 /**
  * Print user lose message to the console
