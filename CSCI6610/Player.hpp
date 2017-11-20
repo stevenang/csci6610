@@ -40,7 +40,7 @@ public:
     int getTotal() const;
     bool isBlackJack() const;
     bool isBusted() const;
-    virtual bool isHitting() const = 0; // A virtual method which can be overwrite later
+    //virtual bool isHitting() const = 0; // A virtual method which can be overwrite later
     virtual ~Player();
 
 protected:
