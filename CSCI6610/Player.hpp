@@ -41,7 +41,7 @@ public:
     int getTotal() const;
     bool isBlackJack() const;
     bool isBusted() const;
-    vector <Card*> getCards() { return getCards(); }
+    vector <Card*> getCardsFromHand() { return getCards(); }
     //virtual bool isHitting() const = 0; // A virtual method which can be overwrite lat
     void clearHands() { clearHand(); }
     virtual ~Player();
