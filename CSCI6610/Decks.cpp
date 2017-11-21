@@ -66,7 +66,7 @@ void Decks::updateAllDeckCards(){
 vector<Card*> Decks::giveCard(int numberOfCards){
 
  vector<Card*> cards;
- cout<<"numberOfCards to give:-"<<numberOfCards<<endl;
+ //cout<<"numberOfCards to give:-"<<numberOfCards<<endl;
  int range = (all_deck.size()-numberOfCards);
  for(int i = all_deck.size()-1;i>=range;i--){
 	 if(i == white_magic) shuffle();
@@ -74,10 +74,10 @@ vector<Card*> Decks::giveCard(int numberOfCards){
 	 all_deck.erase(all_deck.end() - 1);
  }
 
- cout<<"Given to player cards:-\n";
- for(unsigned n=0;n<cards.size();n++){
- 	 cout<<""<<cards.at(n)->getCardSuite()<<"--"<<cards.at(n)->getCardValue()<<endl;
-  }
+ //cout<<"Given to player cards:-\n";
+ //for(unsigned n=0;n<cards.size();n++){
+ 	 //cout<<""<<cards.at(n)->getCardSuite()<<"--"<<cards.at(n)->getCardValue()<<endl;
+  //}
 
  return cards;
 
