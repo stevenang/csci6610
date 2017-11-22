@@ -26,6 +26,8 @@ public:
 	Card();
 	//Constructor with arguments
 	Card(SUIT_TYPE cardSuit, CARD_VALUE cardValue);
+	//TODO: Revisit
+	Card(string cardSuit, char cardValue);
 
 	string getCardSuite() const {return cardSuit;}
 	char getCardValue() const {return cardValue;}

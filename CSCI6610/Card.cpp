@@ -32,6 +32,12 @@ Card::Card(SUIT_TYPE cardSuit, CARD_VALUE cardValue){
 	this->cardValue = cardValues[cardValue];
 }
 
+//TODO: Revisit
+Card::Card(string cardSuit, char cardValue){
+	this->cardSuit = cardSuit;
+	this->cardValue = cardValue;
+}
+
 /*
  * Returns the rank/point of each card value
  * Input: bool isAceSpCase (if not special case, Ace will return a value of 11
