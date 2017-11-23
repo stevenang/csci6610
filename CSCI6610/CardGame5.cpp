@@ -17,8 +17,8 @@ using namespace std;
 
 void printWelcome();
 void printUserTable(BlackJackPalyer players[], Dealer dealer, int numOfPlayers);
-void printUserCard(vector<Card*> userCards);
-void printCard(int count, Card cards[]);
+//void printUserCard(vector<Card*> userCards);
+void printCard(vector<Card*> cards);
 void printMenu();
 int printYesOrNo();
 void printExit();
@@ -82,7 +82,8 @@ int main() {
 		for(;;){
 			printUserTable(players, dealer, 5);
 			cout << "\n" << username << "\n";
-			printUserCard(user.getCardsFromHand());
+			//printUserCard(user.getCardsFromHand());
+			printCard(user.getCardsFromHand());
 			cout << "\nTotal : " << user.getTotal() << "\n";
 			printMenu();
 			char userDecision;
@@ -184,18 +185,19 @@ void printUserTable(BlackJackPalyer players[],
 }
 
 //TODO: change logic here, remove unnecessary loop
-void printUserCard(vector<Card*> userCards){
+/*void printUserCard(vector<Card*> userCards){
 	int size = userCards.size();
-	Card cards[size] = {};
+	vector<Card> cards[size] = {};
 	for(unsigned k=0; k<size; k++){
 		Card card (userCards.at(k)->getCardSuite(),
 			userCards.at(k)->getCardValue());
 		cards[k] = card;
 	}
 	printCard(size, cards);
-}
+}*/
 
-void printCard(int count, Card cards[]){
+void printCard(vector<Card*> cards){
+		int count = cards.size();
 		for (int i=0; i< count; ++i){
 			cout  << setw(7) << right << setfill('*') << "";
 			cout << " ";
@@ -215,7 +217,7 @@ void printCard(int count, Card cards[]){
 			}
 			cout << "|";
 			cout << setw(6) << setfill(' ') << left <<
-					cards[i].getCardSuite() << cards[i].getCardValue()
+					cards.at(i)->getCardSuite() << cards.at(i)->getCardValue()
 					<<right <<"|";
 		}
 		cout << "\n";
