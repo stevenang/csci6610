@@ -151,7 +151,13 @@ bool Player::isBlackJack() const {
  * @return True when card's total is greater than 21.
  */
 bool Player::isBusted() const {
-    return (getTotal() > 21);
+
+	if (getTotal() > 21) {
+		this->status = Player::HITTING;
+		return true;
+	}
+
+    return false;
 }
 
 bool Player::isFirstCardHighCard() const {

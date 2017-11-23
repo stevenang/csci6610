@@ -33,13 +33,18 @@ using namespace std;
 
 class Player : Hand {
 
+	enum statusType {NOT_STARTED, HITTING, STANDING, BUSTED, SURRENDER};
+
 public:
+
     Player();
     Player(const string& name, bool isComputer);
     string allCardToString(bool isDealer, bool showAll) const;
     void addCardToHand(Card* card) { addCard(card); }
     void bust() const;
     int getFirstCardValue() const;
+    string getName() const { return this->name; }
+    int getStatus() const { return status; }
     int getTotal() const;
     bool isBlackJack() const;
     bool isBusted() const;
@@ -51,6 +56,7 @@ public:
 protected:
     string name;
     bool isComputer;
+    int status = Player::NOT_STARTED;
 
 };
 

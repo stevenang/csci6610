@@ -51,6 +51,7 @@ public:
     bool isStanding(int dealerCard) const;
     bool isSurrender(int dealderCard) const;
     void lose() const;
+    void tie() const;
     string toString() const;
     void win() const;
 

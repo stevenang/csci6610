@@ -49,17 +49,10 @@ bool Dealer::isStanding() const {
 	return (getTotal() >= 17);
 }
 
-/**
- * Print Dealer Lose message to the console
- */
 void Dealer::lose() const {
     cout << "Dealer Lose." << endl;
 }
 
-/**
- * Print out dealer7s information
- * @param showAll Determine if to show all dealer's cards or not
- */
 string Dealer::toString(bool showAll) const {
 
     string result = "";

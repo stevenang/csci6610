@@ -91,25 +91,30 @@ bool BlackJackPlayer::isHitting(int dealerCard) const {
 
 	if ((getTotal() >= 4 && getTotal() <= 11) &&
 			(dealerCard >=2 && dealerCard <= 11)) {
+		this->status = BlackJackPlayer::HITTING;
 		return true;
 	}
 
 	if ((getTotal() == 12) && ((dealerCard <=3) ||
 			(dealerCard >= 7 && dealerCard << 11))) {
+		this->status = BlackJackPlayer::HITTING;
 		return true;
 	}
 
 	if ((getTotal() <= 14) && (dealerCard >=7 && dealerCard <= 11)) {
+		this->status = BlackJackPlayer::HITTING;
 		return true;
 	}
 
 	if ((getTotal() == 15) && ((dealerCard >=7 && dealerCard <= 9) ||
 			dealerCard == 11 || dealerCard == 1)) {
+		this->status = BlackJackPlayer::HITTING;
 		return true;
 	}
 
 	if ((getTotal() == 16) && (dealerCard ==7 || dealerCard == 8)) {
-			return true;
+		this->status = BlackJackPlayer::HITTING;
+		return true;
 	}
 
     return false;
@@ -129,11 +134,13 @@ bool BlackJackPlayer::isHitting(int dealerCard) const {
 bool BlackJackPlayer::isStanding(int dealerCard) const {
 
 	if (getTotal() == 12 && (dealerCard >= 4 && dealerCard <= 6)) {
+		this->status = BlackJackPlayer::STANDING;
 		return true;
 	}
 
 	if ((getTotal() >= 13 && getTotal() <= 16) &&
 			(dealerCard >= 2 && dealerCard <= 6)) {
+		this->status = BlackJackPlayer::STANDING;
 		return true;
 	}
 
@@ -156,10 +163,12 @@ bool BlackJackPlayer::isStanding(int dealerCard) const {
 bool BlackJackPlayer::isSurrender(int dealerCard) const {
 
 	if (getTotal() == 15 && (dealerCard == 10)) {
+		this->status = BlackJackPlayer::SURRENDER;
 		return true;
 	}
 
 	if (getTotal() == 16 && (dealerCard >= 9 && dealerCard <= 11)) {
+		this->status = BlackJackPlayer::SURRENDER;
 		return true;
 	}
 
@@ -171,7 +180,16 @@ bool BlackJackPlayer::isSurrender(int dealerCard) const {
  */
 void BlackJackPlayer::lose() const {
 
+	this->loseCount++;
     cout << "Player " + this->name + " lose." << endl;
+
+}
+
+
+void BlackJackPlayer::tie() const {
+
+	this->tieCount++;
+    cout << "Player " + this->tie + " lose." << endl;
 
 }
 
@@ -204,6 +222,7 @@ string BlackJackPlayer::toString() const {
  */
 void BlackJackPlayer::win() const {
 
+	this->winCount++;
     cout << "Player " + this->name + " WIN!!!" << endl;
 
 }
