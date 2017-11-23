@@ -19,6 +19,7 @@
  *                              Hit or not.
  * bool isBusted()              a method return a boolean to determine whether
  *                              if user is bust or not
+ * bool isHighCard()            Check whether the first card is high card nor not
  *
  *==============================================================================
  */
@@ -42,6 +43,7 @@ public:
     int getTotal() const;
     bool isBlackJack() const;
     bool isBusted() const;
+    bool isFirstCardHighCard() const;
     vector <Card*> getCardsFromHand() { return getCards(); }
     void clearHands() { clearHand(); }
     virtual ~Player();
