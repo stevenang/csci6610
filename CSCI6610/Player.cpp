@@ -90,7 +90,6 @@ string Player::allCardToString(bool isDealer, bool showAll) const {
 
 }
 
-
 /**
  * bust()
  * A method which user used to announce he was busted.
@@ -125,6 +124,18 @@ int Player::getTotal() const {
     }
 
     return total;
+}
+
+/**
+ * Get the first card's value from cardsVector (For dealer used only)
+ * @return int card value of the first card.
+ */
+int Player::getFirstCardValue() const {
+	// Get the total from the vector of cards
+	vector<Card*>::const_iterator iter = this->cardsVector.begin();
+
+	return (*iter)->getCardRank(false);
+
 }
 
 /**

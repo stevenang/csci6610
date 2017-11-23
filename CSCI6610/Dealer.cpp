@@ -9,6 +9,7 @@
  * Dealer()             Default Constructor
  * Dealer()             Constructor
  * isHitting()          Determine whether the dealer will hit or not
+ * isStanding()         Determine whether the dealer will stand or not
  * void lose()          Print dealer lose message to the console
  * toString()           String representation of the dealer's information
  * void win()           Print dealer winning message to the console
@@ -30,14 +31,35 @@ Dealer::Dealer(const string &name, bool isComputer) {
     this->isComputer = isComputer;
 }
 
-//bool Dealer::isHitting() const {
-//    return (getTotal() <= 16);
-//}
+/**
+ * if the total is 16 or under, he must take a card.
+ * He must continue to take cards until the total is 17 or more,
+ * at which point the dealer must stand.
+ */
+bool Dealer::isHitting() const {
+    return (getTotal() <= 16);
+}
 
+/**
+ * if the total is 16 or under, he must take a card.
+ * He must continue to take cards until the total is 17 or more,
+ * at which point the dealer must stand.
+ */
+bool Dealer::isStanding() const {
+	return (getTotal() >= 17);
+}
+
+/**
+ * Print Dealer Lose message to the console
+ */
 void Dealer::lose() const {
     cout << "Dealer Lose." << endl;
 }
 
+/**
+ * Print out dealer7s information
+ * @param showAll Determine if to show all dealer's cards or not
+ */
 string Dealer::toString(bool showAll) const {
 
     string result = "";

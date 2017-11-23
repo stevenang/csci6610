@@ -9,6 +9,7 @@
  * Dealer()             Default Constructor
  * Dealer()             Constructor
  * isHitting()          Determine whether the dealer will hit or not
+ * isStanding()         Determine whether the dealer will stand or not
  * void lose()          Print dealer lose message to the console
  * toString()           String representation of the dealer's information
  * void win()           Print dealer winning message to the console
@@ -32,7 +33,8 @@ class Dealer : public Player {
 public:
     Dealer();
     Dealer(const string& name, bool isComputer);
-    //bool isHitting() const override;
+    bool isHitting() const;
+    bool isStanding() const;
     void lose() const;
     string toString(bool showAll) const;
     void win() const;
