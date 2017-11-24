@@ -150,7 +150,7 @@ bool Player::isBlackJack() const {
  * Check whether the user is busted or not
  * @return True when card's total is greater than 21.
  */
-bool Player::isBusted() const {
+bool Player::isBusted() {
 
 	if (getTotal() > 21) {
 		this->status = Player::HITTING;
@@ -164,8 +164,8 @@ bool Player::isFirstCardHighCard() const {
 
 	vector<Card*>::const_iterator iter = this->cardsVector.begin();
 
-	if ((*iter)->getCardRank(true) == 10 ||
-			(*iter)->getCardRank(true) == 11) {
+	if ((*iter)->getCardRank(false) == 10 ||
+			(*iter)->getCardRank(false) == 11) {
 		return true;
 	}
 

@@ -87,7 +87,7 @@ string BlackJackPlayer::getStatistic() const {
  *
  * @return true if user can hit
  */
-bool BlackJackPlayer::isHitting(int dealerCard) const {
+bool BlackJackPlayer::isHitting(int dealerCard)  {
 
 	if ((getTotal() >= 4 && getTotal() <= 11) &&
 			(dealerCard >=2 && dealerCard <= 11)) {
@@ -131,7 +131,7 @@ bool BlackJackPlayer::isHitting(int dealerCard) const {
  *
  * @return true when user can stand
  */
-bool BlackJackPlayer::isStanding(int dealerCard) const {
+bool BlackJackPlayer::isStanding(int dealerCard) {
 
 	if (getTotal() == 12 && (dealerCard >= 4 && dealerCard <= 6)) {
 		this->status = BlackJackPlayer::STANDING;
@@ -144,7 +144,7 @@ bool BlackJackPlayer::isStanding(int dealerCard) const {
 		return true;
 	}
 
-	if (getTotal() >= 17) {
+	if (getTotal() > 17) {
 		return true;
 	}
 
@@ -160,7 +160,7 @@ bool BlackJackPlayer::isStanding(int dealerCard) const {
  *
  * @return true when user needs to surrender
  */
-bool BlackJackPlayer::isSurrender(int dealerCard) const {
+bool BlackJackPlayer::isSurrender(int dealerCard) {
 
 	if (getTotal() == 15 && (dealerCard == 10)) {
 		this->status = BlackJackPlayer::SURRENDER;
@@ -178,7 +178,7 @@ bool BlackJackPlayer::isSurrender(int dealerCard) const {
 /**
  * Print user lose message to the console
  */
-void BlackJackPlayer::lose() const {
+void BlackJackPlayer::lose() {
 
 	this->loseCount++;
     cout << "Player " + this->name + " lose." << endl;
@@ -186,10 +186,10 @@ void BlackJackPlayer::lose() const {
 }
 
 
-void BlackJackPlayer::tie() const {
+void BlackJackPlayer::tie() {
 
 	this->tieCount++;
-    cout << "Player " + this->tie + " lose." << endl;
+    cout << "Player " + this->name + " tie." << endl;
 
 }
 
@@ -220,7 +220,7 @@ string BlackJackPlayer::toString() const {
 /**
  * Print user winning message to the console
  */
-void BlackJackPlayer::win() const {
+void BlackJackPlayer::win() {
 
 	this->winCount++;
     cout << "Player " + this->name + " WIN!!!" << endl;

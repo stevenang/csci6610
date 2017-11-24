@@ -47,13 +47,13 @@ public:
     string getStatistic() const;
     int getTieCount() const { return this->tieCount; }
     int getWinCount() const { return this->winCount; }
-    bool isHitting(int dealerCard) const;
-    bool isStanding(int dealerCard) const;
-    bool isSurrender(int dealderCard) const;
-    void lose() const;
-    void tie() const;
+    bool isHitting(int dealerCard);
+    bool isStanding(int dealerCard);
+    bool isSurrender(int dealderCard);
+    void lose();
+    void tie();
     string toString() const;
-    void win() const;
+    void win();
 
     virtual ~BlackJackPlayer();
 

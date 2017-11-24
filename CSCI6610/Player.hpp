@@ -33,7 +33,7 @@ using namespace std;
 
 class Player : Hand {
 
-	enum statusType {NOT_STARTED, HITTING, STANDING, BUSTED, SURRENDER};
+
 
 public:
 
@@ -47,11 +47,13 @@ public:
     int getStatus() const { return status; }
     int getTotal() const;
     bool isBlackJack() const;
-    bool isBusted() const;
+    bool isBusted();
     bool isFirstCardHighCard() const;
     vector <Card*> getCardsFromHand() { return getCards(); }
     void clearHands() { clearHand(); }
     virtual ~Player();
+
+    enum statusType {NOT_STARTED, HITTING, STANDING, BUSTED, SURRENDER};
 
 protected:
     string name;
