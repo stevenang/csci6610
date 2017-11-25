@@ -145,6 +145,7 @@ bool BlackJackPlayer::isStanding(int dealerCard) {
 	}
 
 	if (getTotal() > 17) {
+		this->status = BlackJackPlayer::STANDING;
 		return true;
 	}
 
