@@ -46,14 +46,14 @@ public:
     string getName() const { return this->name; }
     int getStatus() const { return status; }
     int getTotal() const;
-    bool isBlackJack() const;
+    bool isBlackJack();
     bool isBusted();
     bool isFirstCardHighCard() const;
     vector <Card*> getCardsFromHand() { return getCards(); }
     void clearHands() { clearHand(); }
     virtual ~Player();
 
-    enum statusType {NOT_STARTED, HITTING, STANDING, BUSTED, SURRENDER};
+    enum statusType {NOT_STARTED, HITTING, STANDING, BUSTED, SURRENDER, WIN};
 
 protected:
     string name;

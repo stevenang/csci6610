@@ -116,11 +116,11 @@ int Player::getTotal() const {
     for (iter = this->cardsVector.begin(); iter < this->cardsVector.end();
          ++ iter) {
 
-        if (total + (*iter)->getCardRank(true) <= 11) {
-            total = total + (*iter)->getCardRank(true);
-        } else {
+        //if (total + (*iter)->getCardRank(true) <= 11) {
+        //		total = total + (*iter)->getCardRank(true);
+        //} else {
             total = total + (*iter)->getCardRank(false);
-        }
+        //}
 
     }
 
@@ -141,8 +141,13 @@ int Player::getFirstCardValue() const {
  *
  * @return true when the total of card is 21 and number of card is 2
  */
-bool Player::isBlackJack() const {
-    return (getTotal() == 21) && (getTotalNoOfCards() == 2);
+bool Player::isBlackJack() {
+    if ((getTotal() == 21) && (getTotalNoOfCards() == 2)) {
+    		this->status = Player::WIN;
+    		return true;
+    }
+
+    return false;
 }
 
 /**
@@ -153,7 +158,7 @@ bool Player::isBlackJack() const {
 bool Player::isBusted() {
 
 	if (getTotal() > 21) {
-		this->status = Player::HITTING;
+		this->status = Player::BUSTED;
 		return true;
 	}
 

@@ -40,7 +40,6 @@ public:
     void win() const;
 
 private:
-    string name;
     bool isComputer;
 };
 
