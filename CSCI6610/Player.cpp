@@ -213,6 +213,7 @@ void Player::tie() {
 void Player::win() {
 
 	this->winCount++;
+	this->status = Player::WIN;
     cout << "Player " + this->name + " WIN!!!" << endl;
 
 }
