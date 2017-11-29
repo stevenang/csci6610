@@ -109,7 +109,7 @@ void Player::bust() const {
  */
 int Player::getTotal() const {
 
-    int total;
+    int total = 0;
 
     // Get the total from the vector of cards
     vector<Card*>::const_iterator iter;
