@@ -113,15 +113,25 @@ int Player::getTotal() const {
 
     // Get the total from the vector of cards
     vector<Card*>::const_iterator iter;
+    int hard = 0;
+    int soft = 0;
+
     for (iter = this->cardsVector.begin(); iter < this->cardsVector.end();
          ++ iter) {
+    		soft = soft + (*iter)->getCardRank(false);
+    }
 
-        //if (total + (*iter)->getCardRank(true) <= 11) {
-        //		total = total + (*iter)->getCardRank(true);
-        //} else {
-            total = total + (*iter)->getCardRank(false);
-        //}
+    for (iter = this->cardsVector.begin(); iter < this->cardsVector.end();
+             ++ iter) {
+        	hard = hard + (*iter)->getCardRank(true);
+    }
 
+    if (soft == 21 || hard == 21) {
+    		total = 21;
+    } else if (soft <= hard) {
+    		total = soft;
+    } else {
+    		total = hard;
     }
 
     return total;
