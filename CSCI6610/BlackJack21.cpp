@@ -119,6 +119,7 @@ int main() {
 								printCard(user);
 								cout <<"\n\n";
 								user.bust();
+								user.lose();
 								isUserDone = true;
 							}else if(user.getTotal() == 21){
 								cout <<"\n\n";
@@ -452,6 +453,7 @@ bool playComputerUser(BlackJackPlayer* player, Dealer* dealer, Decks* currentDec
 				<< "\n";
 		if(player->isBusted()){
 			player->bust();
+			player->lose();
 			goAhead = false;
 			break;
 		}else if(player->getTotal() == 21){
@@ -487,8 +489,18 @@ bool playDealer(Decks* currentDeck, Dealer* dealer, BlackJackPlayer players[], i
 		if(dealer->getTotal() == 21){
 			dealer->win();
 			isWinner = true;
+			//handle: all players who have no blackjack lose.
+			for(int i=0; i <numOfPlayers; ++i){
+				if(players[i].getTotal() != 21){
+					players[i].lose();
+				}
+			}
+			if(user->getTotal() != 21){
+				user->lose();
+			}
 		}else if(dealer->isBusted()){
 			dealer->bust();
+			dealer->lose();
 		}
 	}
 	if(dealer->getStatus() != BlackJackPlayer::BUSTED && dealer->getTotal() >= 17){
