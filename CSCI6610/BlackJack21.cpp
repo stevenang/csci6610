@@ -352,7 +352,7 @@ void printMenu(BlackJackPlayer user){
 }
 
 int printYesOrNo(){
-	cout << "\nPress Y to continue:\n";
+	cout << "\nPress Y to continue or any other key to exit.\n";
 	char option;
 	option = getchar();
 	//getchar();//for eclipse
@@ -495,7 +495,7 @@ bool playDealer(Decks* currentDeck, Dealer* dealer, BlackJackPlayer players[], i
 					players[i].lose();
 				}
 			}
-			if(user->getTotal() != 21){
+			if(user->getTotal() != 21 && user->getStatus() != BlackJackPlayer::SURRENDER){
 				user->lose();
 			}
 		}else if(dealer->isBusted()){
@@ -543,13 +543,15 @@ void printRoundStatus(vector<Player*> winners){
 	if(winners.size() == 1){
 		cout << "The winner is : " << winners.at(0)->getName();
 	}else if(winners.size() > 1){
-		cout << "It is a tie between ";
+		string result = "\nIt is a tie between ";
 		for(int i=0; i<winners.size();++i){
-			cout << winners.at(i)->getName();
+			result += winners.at(i)->getName();
 			if((i+1) != winners.size()){
-				cout << " and ";
+				result += " and ";
 			}
+			cout << "\n" << winners.at(i)->getName() << " wins.";
 		}
+		cout << result;
 	}
 	cout << "\n";
 }
