@@ -51,6 +51,12 @@ public:
     bool isFirstCardHighCard() const;
     vector <Card*> getCardsFromHand() { return getCards(); }
     void clearHands() { clearHand(); }
+    void lose();
+    void tie();
+    void win();
+    void hitting() { this->status = Player::HITTING; }
+    void standing() { this->status = Player::STANDING; }
+    void surrender() { this->status = Player::SURRENDER; }
     virtual ~Player();
 
     enum statusType {NOT_STARTED, HITTING, STANDING, BUSTED, SURRENDER, WIN};
@@ -59,6 +65,9 @@ protected:
     string name;
     bool isComputer;
     int status = Player::NOT_STARTED;
+    int winCount = 0;
+    int loseCount = 0;
+    int tieCount = 0;
 
 };
 

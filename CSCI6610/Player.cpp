@@ -178,6 +178,35 @@ bool Player::isFirstCardHighCard() const {
 
 }
 
+
+/**
+ * Print user lose message to the console
+ */
+void Player::lose() {
+
+	this->loseCount++;
+    cout << "Player " + this->name + " lose." << endl;
+
+}
+
+
+void Player::tie() {
+
+	this->tieCount++;
+    cout << "Player " + this->name + " tie." << endl;
+
+}
+
+/**
+ * Print user winning message to the console
+ */
+void Player::win() {
+
+	this->winCount++;
+    cout << "Player " + this->name + " WIN!!!" << endl;
+
+}
+
 Player::~Player() {
     // TODO Auto-generated destructor stub
 }

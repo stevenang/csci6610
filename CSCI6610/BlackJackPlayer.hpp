@@ -50,17 +50,15 @@ public:
     bool isHitting(int dealerCard);
     bool isStanding(int dealerCard);
     bool isSurrender(int dealderCard);
-    void lose();
-    void tie();
     string toString() const;
-    void win();
+
 
     virtual ~BlackJackPlayer();
 
 private:
-    int winCount;
-    int loseCount;
-    int tieCount;
+    //int winCount = 0;
+    //int loseCount = 0;
+    //int tieCount = 0;
 };
 
 // Overloaded operator <<

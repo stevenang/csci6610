@@ -177,24 +177,6 @@ bool BlackJackPlayer::isSurrender(int dealerCard) {
 }
 
 /**
- * Print user lose message to the console
- */
-void BlackJackPlayer::lose() {
-
-	this->loseCount++;
-    cout << "Player " + this->name + " lose." << endl;
-
-}
-
-
-void BlackJackPlayer::tie() {
-
-	this->tieCount++;
-    cout << "Player " + this->name + " tie." << endl;
-
-}
-
-/**
  * String representation of the user's information
  * @return string user's information
  */
@@ -218,15 +200,6 @@ string BlackJackPlayer::toString() const {
 
 }
 
-/**
- * Print user winning message to the console
- */
-void BlackJackPlayer::win() {
-
-	this->winCount++;
-    cout << "Player " + this->name + " WIN!!!" << endl;
-
-}
 
 // Overloaded operator <<
 ostream &operator<< (ostream &os, const BlackJackPlayer &player) {
