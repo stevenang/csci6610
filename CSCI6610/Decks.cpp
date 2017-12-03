@@ -31,7 +31,7 @@ void Decks::fillDecks()
 	}
 	updateAllDeckCards();
 	totalCard = all_deck.size();
-	cout<<"Total Card:-"<<totalCard<<endl;
+	//cout<<"Total Card:-"<<totalCard<<endl;
 }
 
 void Decks::shuffle()
@@ -209,7 +209,7 @@ string Decks::showMenuItems()
 		int userInput;
 		string userInputValue;
 
-		cout<<"Which drink do you like to prefer ?"<<endl;
+		cout<<"Which drink do you like to prefer ?"<<"\n";
 		cout<<"please select from options below."<<"\n";
 		cout<<"press 1 for coke."<<"\n";
 		cout<<"press 2 for tea."<<"\n";
