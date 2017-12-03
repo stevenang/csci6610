@@ -1,26 +1,30 @@
 /*==============================================================================
- *                                                                    Player.hpp
+ *                                                                    Player.cpp
  * Author      : Steven Kho Ang
- * Version     : Created on November 17, 2017
+ * Version     : 1.0
+ * Created     : Created on November 17, 2017
+ * Last Update:  Last Update on December 03, 2017
  * Copyright   : Copyright (c) 2017 STEVEN KHO ANG.
  *
- * This is an abstreact class uses as a base class for
- * BlackJackPlayer and Dealer
+ * This is an implementation of the Player.hpp
+ * Also a super class of BlackJackPlayer and Dealer
  *
  * Player()                     Default Constructor
  * Player(const string& name,   Constructor
  *          bool isComputer)
  * allCardToString(bool dealer) String representation of user hand's card
- * virtual bool isHitting()     Methods which returns playser decision whether
- *                              Hit or not.
- * bool isBlackJacj()           Check whether the user is BlackJack or not
- * bool isBusted()              a method return a boolean to determine whether
+ * bust()                       Print out "Busted" message
+ * getTotal()                   Get the total value of hand
+ * getFirstCardValue()          Return the value of the first card of hand
+ * isBlackJacj()                Check whether the user is BlackJack or not
+ * isBusted()                   a method return a boolean to determine whether
  *                              if user is bust or not
- * virtual bool isHitting()     Methods which returns playser decision whether
- *                              Hit or not.
- * void bust()                  a method to make an announcement that
- *                              user is busted.
- *
+ * isFirstCardHighCard()        Determine of the first card of your hand is
+ *                              high card (10, J, Q, K and A) or not
+ * lose()                       Print out lose message
+ * tie()                        Print out tie message
+ * win()                        Print out win message
+ * ~Player()                    Deconstructor
  *==============================================================================
  */
 
@@ -90,7 +94,6 @@ string Player::allCardToString(bool isDealer, bool showAll) const {
 
 }
 
-
 /**
  * bust()
  * A method which user used to announce he was busted.
@@ -102,10 +105,6 @@ void Player::bust() const {
 
 /**
  * Get the total value of hand
- * Iterate the cards and gets its numeric value 1-10
- * Then determine if there is an ACE by getting the Face value
- * If ACE exits in the hand, then check the total.
- * If total is less than or equal to 11, then the current total add 10
  */
 int Player::getTotal() const {
 
@@ -137,6 +136,10 @@ int Player::getTotal() const {
     return total;
 }
 
+/**
+ * For Dealer use's only
+ * This will return a first card of the hand.
+ */
 int Player::getFirstCardValue() const {
 	// Get the total from the vector of cards
 	vector<Card*>::const_iterator iter = this->cardsVector.begin();
@@ -146,10 +149,8 @@ int Player::getFirstCardValue() const {
 }
 
 /**
- * isBlackJack()
  * A method to determine whether user has BlackJack or not
- *
- * @return true when the total of card is 21 and number of card is 2
+ * @return true when the total of card is 21 and number of card is 21
  */
 bool Player::isBlackJack() {
     if ((getTotal() == 21) && (getTotalNoOfCards() == 2)) {
@@ -161,7 +162,6 @@ bool Player::isBlackJack() {
 }
 
 /**
- * isBusted()
  * Check whether the user is busted or not
  * @return True when card's total is greater than 21.
  */
@@ -175,6 +175,10 @@ bool Player::isBusted() {
     return false;
 }
 
+/**
+ * For Dealer used only
+ * To check whether first card in hand is high card or not.
+ */
 bool Player::isFirstCardHighCard() const {
 
 	vector<Card*>::const_iterator iter = this->cardsVector.begin();
@@ -199,7 +203,9 @@ void Player::lose() {
 
 }
 
-
+/**
+ * Print user is tie's message
+ */
 void Player::tie() {
 
 	this->tieCount++;
@@ -211,13 +217,15 @@ void Player::tie() {
  * Print user winning message to the console
  */
 void Player::win() {
-
 	this->winCount++;
 	this->status = Player::WIN;
     cout << "Player " + this->name + " WIN!!!" << endl;
 
 }
 
+/**
+ * Default deconstructor.
+ */
 Player::~Player() {
     // TODO Auto-generated destructor stub
 }
