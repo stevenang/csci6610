@@ -221,6 +221,8 @@ string Decks::showMenuItems()
 
 		fflush( stdout );
 		cin>>userInput;
+	        cin.clear();
+		cin.ignore(144,'\n');
 
 		switch(userInput)
 		{
