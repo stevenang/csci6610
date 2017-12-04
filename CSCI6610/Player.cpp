@@ -207,7 +207,7 @@ bool Player::isFirstCardHighCard() const {
  */
 void Player::lose() {
 
-	this->loseCount++;
+	//this->loseCount++;
     cout << "Player " + this->name + " lose." << endl;
 
 }
@@ -226,7 +226,7 @@ void Player::tie() {
  * Print user winning message to the console
  */
 void Player::win() {
-	this->winCount++;
+	//this->winCount++;
 	this->status = Player::WIN;
     cout << "Player " + this->name + " WIN!!!" << endl;
 
