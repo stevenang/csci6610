@@ -209,7 +209,7 @@ string Decks::showMenuItems()
 		int userInput;
 		string userInputValue;
 
-		cout<<"Which drink do you like to prefer ?"<<"\n";
+		cout<<"Which drink do you prefer ?"<<"\n";
 		cout<<"please select from options below."<<"\n";
 		cout<<"press 1 for coke."<<"\n";
 		cout<<"press 2 for tea."<<"\n";
