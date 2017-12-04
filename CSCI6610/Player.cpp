@@ -14,6 +14,7 @@
  *          bool isComputer)
  * allCardToString(bool dealer) String representation of user hand's card
  * bust()                       Print out "Busted" message
+ * clearHand()                  Clean player's hand at the end of each game.
  * getTotal()                   Get the total value of hand
  * getFirstCardValue()          Return the value of the first card of hand
  * isBlackJacj()                Check whether the user is BlackJack or not
@@ -101,6 +102,14 @@ string Player::allCardToString(bool isDealer, bool showAll) const {
  */
 void Player::bust() const {
     cout << "Player: " << this->name << " busted." << endl;
+}
+
+/**
+ * Clean player's hand at the end of each game.
+ */
+void Player::clearHands() {
+	this->status = Player::NOT_STARTED;
+	clearHand();
 }
 
 /**

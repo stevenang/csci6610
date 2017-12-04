@@ -51,7 +51,7 @@ public:
     string allCardToString(bool isDealer, bool showAll) const;
     void addCardToHand(Card* card) { addCard(card); }
     void bust() const;
-    void clearHands() { clearHand(); }
+    void clearHands();
     vector <Card*> getCardsFromHand() { return getCards(); }
     int getFirstCardValue() const;
     string getName() const { return this->name; }
