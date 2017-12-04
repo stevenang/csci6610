@@ -10,7 +10,7 @@
 #include "Card.hpp"
 
 const char* cardSuites[4] = {"\u2660", "\u2663", "\u2665", "\u2666"};
-		//{"Spade", "Club", "Heart", "Diamond"};
+
 constexpr char cardValues[13] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T',
 		'A', 'J', 'Q', 'K'};
 
@@ -32,7 +32,10 @@ Card::Card(SUIT_TYPE cardSuit, CARD_VALUE cardValue){
 	this->cardValue = cardValues[cardValue];
 }
 
-//TODO: Revisit
+/*
+ * Constructor for card suit and value
+ * Input string card suit, char card value
+ */
 Card::Card(string cardSuit, char cardValue){
 	this->cardSuit = cardSuit;
 	this->cardValue = cardValue;
@@ -108,20 +111,6 @@ void Card::printCard() const{
  */
 string Card::toString() const{
 	cout << "\n" << cardSuit << cardValue;
+	return cardSuit + " " + cardValue;
 }
 
-/*
- * Get the value of card for card counting
- * Input: None
- * Output: int (value would be 0, 1 or -1)
- */
-int Card::getHiLoValue() const{
-	int value = cardValue - '0';
-	if(value >=2 && value <= 6){
-		return +1;
-	}else if(value >=7 && value <= 9){
-		return 0;
-	}else{
-		return -1;
-	}
-}
