@@ -134,12 +134,10 @@ int Player::getTotal() const {
         	hard = hard + (*iter)->getCardRank(true);
     }
 
-    if (soft == 21 || hard == 21) {
-    		total = 21;
-    } else if (soft <= hard) {
-    		total = soft;
-    } else {
+    if (soft > 21) {
     		total = hard;
+    } else {
+    		total = soft;
     }
 
     return total;
