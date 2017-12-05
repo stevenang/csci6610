@@ -22,7 +22,7 @@ using namespace std;
 #define COMP_PLAYERS_COUNT 5
 
 const char* statuses[6] = {" ", "HIT", "STAND", "BUST", "SURRENDER",
-		"BLACKJACK"};
+		"WIN"};
 
 //------------------Function prototypes start-----------------------------//
 
@@ -44,7 +44,7 @@ void checkPlayersBlackJack(BlackJackPlayer players[], int numOfPlayers,
 void checkUserBlackJack(BlackJackPlayer* user, vector<Player*>* winners);
 //check if dealer have a natural blackjack, in case his first card is a high
 //card
-bool checkDealerBlackJack(Dealer dealer, vector<Player*>* winners,
+bool checkDealerBlackJack(Dealer* dealer, vector<Player*>* winners,
 		BlackJackPlayer players[], int noOfPlayers, BlackJackPlayer* user);
 //Prints table showing cards of players and dealer
 void printUserTable(BlackJackPlayer players[],int numOfPlayers,
@@ -120,13 +120,13 @@ int main() {
 			//to see if dealer got a natural blackjack
 			//isHiddenCard is returned as False
 			//in case the dealer had a high card
-			isHiddenCard = checkDealerBlackJack(dealer, &winners,
+			isHiddenCard = checkDealerBlackJack(&dealer, &winners,
 					players, COMP_PLAYERS_COUNT, &user);
 
 			if(winners.size() > 0){//When there are already winners
 				printUserTable(players, COMP_PLAYERS_COUNT,
 										dealer, false);
-				printPlayerStatus(players, COMP_PLAYERS_COUNT, dealer);
+			//	printPlayerStatus(players, COMP_PLAYERS_COUNT, dealer);
 				printCard(user);
 				printRoundStatus(winners);
 			}else{//else, continue playing
@@ -150,10 +150,16 @@ int main() {
 				//dealer's turn to play
 				if(isHiddenCard){
 					cout << "\nDealer open the face down card.";
+					cout << "\nDealer got "
+							<< dealer.getCardsFromHand().at(1)->toString();
+					isHiddenCard= false;
 				}
 				playDealer(&currentDeck, &dealer, players,
 						COMP_PLAYERS_COUNT, &user);
-
+				printUserTable(players, COMP_PLAYERS_COUNT,
+						dealer, isHiddenCard);
+				printPlayerStatus(players, COMP_PLAYERS_COUNT, dealer);
+				printCard(user);
 				findWinner(&dealer, players, COMP_PLAYERS_COUNT,
 							&user, winners);
 			}
@@ -313,8 +319,10 @@ void printCard(BlackJackPlayer user){
 		vector<Card*> cards = user.getCardsFromHand();
 		cout << "\n" << user.getName() << " - Total : "
 			 << user.getTotal();
-		if(user.getTotal() == 21){
+		if(user.isBlackJack()){
 			cout << " -- BLACKJACK";
+		}else if(user.getTotal() == 21){
+			cout << " -- WIN";
 		}else if(user.getTotal() > 21){
 			cout << " -- BUST";
 		}
@@ -507,21 +515,8 @@ void playDealer(Decks* currentDeck, Dealer* dealer,
 		cout << "\nDealer got " << dealerCard.at(0)->getCardSuite()
 		<< dealerCard.at(0)->getCardValue()<< ".\n";
 		if(dealer->getTotal() == 21){
+			cout << "\n";
 			dealer->win();
-			//handle: all players who have no blackjack lose.
-			//will do it in findwinner
-			/*for(int i=0; i <numOfPlayers; ++i){
-				BlackJackPlayer* player = &players[i];
-				if(player->getTotal() != 21
-						&& player->getStatus() != BlackJackPlayer::SURRENDER){
-				//	player->addLoseCount();
-				}
-			}
-			if(user->getTotal() != 21
-					&& user->getStatus() != BlackJackPlayer::BUSTED
-					&& user->getStatus() != BlackJackPlayer::SURRENDER){
-				user->addLoseCount();
-			}*/
 		}else if(dealer->isBusted()){
 			dealer->bust();
 			dealer->lose();
@@ -623,67 +618,49 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
 			break;
 		}
 		case BlackJackPlayer::STANDING:
-			bool isDealerWinner = true;
-			vector<Player*> tiePlayers;
-			for(int i=0; i<numOfPlayers; ++i){
-				BlackJackPlayer* player = &players[i];
-				if(player->getStatus() != BlackJackPlayer::BUSTED
-						&& player->getStatus() !=BlackJackPlayer::SURRENDER){
-					if(player->getTotal() > dealer->getTotal()){
-						isDealerWinner = false;
-						break;
-					}else if(player->getTotal() == dealer->getTotal()){
-						tiePlayers.push_back(player);
-					}
+		{
+			vector<Player*> losers;
+			vector<Player*> ties;
+			int dealerTotal = dealer->getTotal();
+			for(int i=0; i< COMP_PLAYERS_COUNT; i++){
+				Player* player = &players[i];
+				if(player->getStatus() == BlackJackPlayer::BUSTED
+						|| player->getStatus() == BlackJackPlayer::SURRENDER){
+					continue;
+				}
+				if(dealerTotal < player->getTotal()){
+					winners.push_back(player);
+				}else if(dealerTotal == player->getTotal()){
+					ties.push_back(player);
+				}else{
+					losers.push_back(player);
 				}
 			}
 			if(user->getStatus() == BlackJackPlayer::BUSTED){
 				user->addLoseCount();
-			}
-			if(isDealerWinner == true){//if still dealer is the winner, check for
-				//human user
-				if( user->getStatus() != BlackJackPlayer::BUSTED
-						&& user->getStatus() != BlackJackPlayer::SURRENDER){
-					if(user->getTotal() > dealer->getTotal()){
-						isDealerWinner = false;
-						user->addWinCount();
-					}else if(user->getTotal() == dealer->getTotal()){
-						tiePlayers.push_back(user);
-						user->addWinCount();
-					}else{
-						user->addLoseCount();
-					}
-				}
-			}
-			if(isDealerWinner){
-				if(!tiePlayers.empty()){
-					winners.assign(tiePlayers.begin(), tiePlayers.end());
-				}
-				winners.push_back(dealer);
+			}else if (user->getStatus() == BlackJackPlayer::SURRENDER){
+				// do nothing
 			}else{
-				for(int i=0; i<numOfPlayers; ++i){
-					Player* player = &players[i];
-					if(player->getStatus() != BlackJackPlayer::BUSTED
-							&& player->getStatus() !=BlackJackPlayer::SURRENDER){
-						if(player->getTotal() >= dealer->getTotal()){
-							winners.push_back(player);
-						}
-					}
-				}
-				if( user->getStatus() != BlackJackPlayer::BUSTED
-							&& user->getStatus() != BlackJackPlayer::SURRENDER){
-					if(user->getTotal() >= dealer->getTotal()){
-						user->addWinCount();
-						winners.push_back(user);
-					}else{
-						user->addLoseCount();
-					}
+				if(dealerTotal < user->getTotal()){
+					user->addWinCount();
+					winners.push_back(user);
+				}else if(dealerTotal == user->getTotal()){
+					user->addWinCount();
+					ties.push_back(user);
+				}else{
+					user->addLoseCount();
+					losers.push_back(user);
 				}
 			}
+			if(winners.size() == 0){
+				dealer->win();
+				winners.push_back(dealer);
+				if(ties.size()!=0){
+					winners.insert(winners.end(), ties.begin(), ties.end());
+				}
+			}
+		}
 	}
-	printUserTable(players, numOfPlayers, *dealer, false);
-	printPlayerStatus(players, numOfPlayers, *dealer);
-	printCard(*user);
 	printRoundStatus(winners);
 }
 
@@ -694,7 +671,8 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
  * Output: None
  */
 void printRoundStatus(vector<Player*> winners){
-	cout << "\n\n";
+	cout << "\n" << "Calculating results...";
+	cout << "\n";
 	cout << setw(CONSOLE_WIDTH/3) << setfill('-') << " " << endl;
 	cout << "Results : " << endl;
 	cout << setw(CONSOLE_WIDTH/3) << setfill('-') << " " << endl;
@@ -742,6 +720,7 @@ void checkPlayersBlackJack(BlackJackPlayer players[], int numOfPlayers,
 		if(players[i].isBlackJack()){
 			cout << "\n";
 			players[i].win();
+			cout << "\n" << players[i].getName() << " got a BLACKJACK!\n";
 			winners->push_back(&players[i]);
 		}
 	}
@@ -756,6 +735,7 @@ void checkUserBlackJack(BlackJackPlayer* user, vector<Player*>* winners){
 	if(user->isBlackJack()){
 		cout << "\n";
 		user->win();
+		cout << "\n" << user->getName() << " got a BLACKJACK!\n";
 		user->addWinCount();
 		winners->push_back(user);
 	}
@@ -767,34 +747,50 @@ void checkUserBlackJack(BlackJackPlayer* user, vector<Player*>* winners){
  * Input: dealer, isHiddenCard (second card of dealer), list of winners
  * Output: None
  */
-bool checkDealerBlackJack(Dealer dealer, vector<Player*>* winners,
+bool checkDealerBlackJack(Dealer* dealer, vector<Player*>* winners,
 		BlackJackPlayer players[], int noOfPlayers, BlackJackPlayer* user){
 	bool isHiddenCard = true;
-	if(dealer.isFirstCardHighCard()){
-		cout << "\nDealer got " << dealer.getCardsFromHand().at(0)->getCardSuite()
-						<< dealer.getCardsFromHand().at(0)->getCardValue()
+	if(dealer->isFirstCardHighCard()){
+		cout << "\nDealer got " << dealer->getCardsFromHand().at(0)->getCardSuite()
+						<< dealer->getCardsFromHand().at(0)->getCardValue()
 						<< " as the face up card.";
 		cout << "\nDealer is going to open the face down card.";
 		isHiddenCard = false;
 		cout << "\nThe face down card is "
-				<<  dealer.getCardsFromHand().at(1)->getCardSuite()
-				<< dealer.getCardsFromHand().at(1)->getCardValue()
+				<<  dealer->getCardsFromHand().at(1)->getCardSuite()
+				<< dealer->getCardsFromHand().at(1)->getCardValue()
 				<<".";
 		cout << "\nChecking if the dealer got a natural blackjack.\n";
-		if(dealer.isBlackJack()){
-			cout << "Dealer is a Natural Blackjack.\n";
-			dealer.win();
-			winners->push_back(&dealer);
+		if(dealer->isBlackJack()){
+			cout << "Dealer is a Natural Blackjack.\n\n";
+			dealer->win();
+			winners->push_back(dealer);
 			for(int i=0; i< noOfPlayers; ++i){
 				BlackJackPlayer* player = &players[i];
-				if(!user->isBlackJack() &&
-						user->getStatus() != BlackJackPlayer::BUSTED &&
-						user->getStatus() != BlackJackPlayer::SURRENDER){
-					user->addLoseCount();
+				if(!player->isBlackJack()){
+					player->lose();
+					player->addLoseCount();
 				}
+			}
+			if(!user->isBlackJack()){
+				user->lose();
+				user->addLoseCount();
 			}
 		}else{
 			cout << "Dealer is NOT a Blackjack.\n";
+			if(winners->size() > 0){
+				dealer->lose();
+			}
+		}
+	}else{
+		if(winners->size() > 0){
+			cout << "\nDealer is going to open the face down card.";
+			isHiddenCard = false;
+			cout << "\nThe face down card is "
+					<<  dealer->getCardsFromHand().at(1)->getCardSuite()
+					<< dealer->getCardsFromHand().at(1)->getCardValue()
+					<<".";
+			dealer->lose();
 		}
 	}
 	return isHiddenCard;
