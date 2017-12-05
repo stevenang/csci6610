@@ -92,6 +92,7 @@ int main() {
 	cout << "\nHello " << username << ",Let us start the game.";
 	cout << "\nAre you ready?";
 	if(isContinue()){
+		cout << "\033c";
 		Dealer dealer("Dealer", true);
 		BlackJackPlayer player1("Player1", true);
 		BlackJackPlayer player2("Player2", true);
@@ -167,6 +168,7 @@ int main() {
 			cin.clear();
 			cin.ignore(144, '\n');
 			if(isContinue()){
+				cout << "\033c";
 				clearHand(players, COMP_PLAYERS_COUNT, &user, &dealer);
 			}else{
 				printPlayerReport(&user);
