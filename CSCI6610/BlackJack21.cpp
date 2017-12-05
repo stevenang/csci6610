@@ -543,12 +543,14 @@ void playUser(Decks* currentDeck, BlackJackPlayer* user){
 	printMenu(currentDeck, *user);
 	char userDecision;
 	cin >> userDecision;
-	switch(userDecision){
+	switch(toupper(userDecision)){
 		case 'S':
 			cout << user->getName() << " decided to STAND.\n";
+			user->standing();
 			break;
 		case 'U':
 			cout << user->getName() << " decided to SURRENDER.\n";
+			user->surrender();
 			break;
 		case 'H':
 			{
@@ -558,11 +560,9 @@ void playUser(Decks* currentDeck, BlackJackPlayer* user){
 				printCard(*user);
 				cout <<"\n\n";
 				user->bust();
-			//	user->addLoseCount();
 			}else if(user->getTotal() == 21){
 				cout <<"\n\n";
 				user->win();
-				//user->addWinCount();
 			}else{
 				playUser(currentDeck, user);
 			}
@@ -655,10 +655,13 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
 				}
 			}
 			if(winners.size() == 0){
-				dealer->win();
+				//cout << "\n";
+				//dealer->win();
 				winners.push_back(dealer);
 				if(ties.size()!=0){
-					winners.insert(winners.end(), ties.begin(), ties.end());
+					for(int i=0; i<ties.size(); i++){
+						winners.push_back(ties.at(i));
+					}
 				}
 			}
 		}
@@ -836,7 +839,7 @@ void printMenu(Decks* currentDeck, BlackJackPlayer user){
 	cout << setw(7) << setfill(' ') << right << "SURRENDER";
 	cout << setw(15) <<  " " ;
 	cout << "\n\n";
-	cout << "Press H to HIT, S to Stand, P to Split and U to Surrender.\n";
+	cout << "Press H to HIT, S to Stand and U to Surrender.\n";
 //	cout << "Press Q to Quit.\n";
 }
 
