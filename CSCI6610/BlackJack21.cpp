@@ -720,7 +720,7 @@ void checkPlayersBlackJack(BlackJackPlayer players[], int numOfPlayers,
 		if(players[i].isBlackJack()){
 			cout << "\n";
 			players[i].win();
-			cout << "\n" << players[i].getName() << " got a BLACKJACK!";
+			cout << "\n" << players[i].getName() << " got a BLACKJACK!\n";
 			winners->push_back(&players[i]);
 		}
 	}
@@ -735,7 +735,7 @@ void checkUserBlackJack(BlackJackPlayer* user, vector<Player*>* winners){
 	if(user->isBlackJack()){
 		cout << "\n";
 		user->win();
-		cout << "\n" << user->getName() << " got a BLACKJACK!";
+		cout << "\n" << user->getName() << " got a BLACKJACK!\n";
 		user->addWinCount();
 		winners->push_back(user);
 	}
