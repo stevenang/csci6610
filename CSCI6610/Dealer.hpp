@@ -39,7 +39,7 @@ public:
     bool isStanding() const;
     void lose() const;
     string toString(bool showAll) const;
-    void win() const;
+    void win();
 
 private:
     bool isComputer;

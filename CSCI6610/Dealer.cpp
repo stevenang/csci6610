@@ -88,6 +88,7 @@ string Dealer::toString(bool showAll) const {
 /**
  * Print out Winning message
  */
-void Dealer::win() const {
+void Dealer::win() {
+	this->status = Player::WIN;
     cout << "Dealer Win!!!" << endl;
 }
