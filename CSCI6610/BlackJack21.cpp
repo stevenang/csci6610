@@ -1,14 +1,15 @@
 //============================================================================
 // Name        : BlackJack21.cpp
-// Project     : Final Project Blackjack 21 Game App
+// Project     : Group Project Blackjack 21 Game App
 // Author      : Parvathy Mohan
 // Version     : Created on 11/24/2017
-// Copyright   : This program can only be used for assignment grading purpose
+// Copyright   : This program can only be used for project grading purpose
 // Description : Blackjack 21 game implementation in C++ using MVC design.
 //				 BlackJack21.cpp is the controller class that integrates all
 //				 header files and decides on the flow of the program and
 //				 show UI to the controller. The game have five computer
-//				 players, a dealer and a human player.
+//				 players, a dealer and a human player. It implements all rules
+//				 of the game and plays the dealer and player objects.
 //============================================================================
 
 #include <iostream>
@@ -94,6 +95,8 @@ int main() {
 	if(isContinue()){
 		cout << "\033c";
 		Dealer dealer("Dealer", true);
+		//human user is referred as user and computer players are referred
+		//as players everywhere.
 		BlackJackPlayer player1("Player1", true);
 		BlackJackPlayer player2("Player2", true);
 		BlackJackPlayer player3("Player3", true);
@@ -124,24 +127,26 @@ int main() {
 			isHiddenCard = checkDealerBlackJack(&dealer, &winners,
 					players, COMP_PLAYERS_COUNT, &user);
 
-			if(winners.size() > 0){//When there are already winners
+			if(winners.size() > 0){//When there are already winners in first
+				//round
 				printUserTable(players, COMP_PLAYERS_COUNT,
 										dealer, false);
-			//	printPlayerStatus(players, COMP_PLAYERS_COUNT, dealer);
 				printCard(user);
 				printRoundStatus(winners);
 			}else{//else, continue playing
+				//all computer players play
 				playComputerUsers(players, COMP_PLAYERS_COUNT,
 						dealer, &currentDeck, winners);
 				cout << "\n\nAll other users are done, here is the card table!"
 						<< endl;
+				//human user play
 				printUserTable(players, COMP_PLAYERS_COUNT,
 						dealer, isHiddenCard);
+				//printing all players status
 				printPlayerStatus(players, COMP_PLAYERS_COUNT, dealer);
 				if(user.getTotal() == 21){
 					printCard(user);
 					user.win();
-				//	user.addWinCount();
 					winners.push_back(&user);
 				}else{
 					cout << "\n";
@@ -460,9 +465,9 @@ void playComputerUsers(BlackJackPlayer players[], int numOfPlayers,
  */
 bool playComputerUser(BlackJackPlayer* player, Dealer* dealer,
 		Decks* currentDeck){
-//	cout << "\n";
 	bool isWinner = false;
 	bool goAhead = true;
+	//hitting logic in a loop until player stops hitting
 	while(
 		player->isHitting(dealer->getCardsFromHand().at(0)->getCardRank(false))
 	){
@@ -483,11 +488,13 @@ bool playComputerUser(BlackJackPlayer* player, Dealer* dealer,
 			break;
 		}
 	}
+	//if player is standing
 	if(goAhead &&
 	player->isStanding(dealer->getCardsFromHand().at(0)->getCardRank(false))){
 		cout << "" << player->getName() << " decided to STAND.\n";
 		goAhead = false;
 	}
+	//if player is surrendering
 	if(goAhead &&
 	player->isSurrender(dealer->getCardsFromHand().at(0)->getCardRank(false))){
 		cout << "" << player->getName() << " decided to SURRENDER.\n";
@@ -509,6 +516,7 @@ bool playComputerUser(BlackJackPlayer* player, Dealer* dealer,
  */
 void playDealer(Decks* currentDeck, Dealer* dealer,
 		BlackJackPlayer players[], int numOfPlayers, BlackJackPlayer* user){
+	//The rule is dealer cannot hit after total reach 17.
 	while(dealer->getTotal() < 17){
 		cout << "\nDealer have a total of " << dealer->getTotal() << ".";
 		cout << "\nTaking next card from the deck.";
@@ -564,17 +572,22 @@ void playUser(Decks* currentDeck, BlackJackPlayer* user){
 				cout <<"\n\n";
 				user->win();
 			}else{
+				//recursion
 				playUser(currentDeck, user);
 			}
 			break;
 			}
 		default:
 			cout << "Sorry, wrong key!" << endl;
+			//recursion
 			playUser(currentDeck, user);
 	}
 }
 /*
- * Find the winner of a round
+ * Find the winner of a round: if dealer bust, all other players who are not
+ * busted/surrendered wins. Else, if dealer wins, all other players with no
+ * 21 total lose. If no one has 21, all players with a total above dealer
+ * are winners and below are losers.
  * Input: array of players, number of players, human user, list of winners
  * Output: None
  */
@@ -582,7 +595,7 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
 		BlackJackPlayer* user, vector<Player*> winners){
 	switch(dealer->getStatus()){
 		case BlackJackPlayer::WIN:
-		{
+		{//calculating winners when dealer has 21
 			winners.push_back(dealer);
 			//dealer got a natural blackjack
 			for(int i=0; i < numOfPlayers; ++i){
@@ -603,7 +616,7 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
 			break;
 		}
 		case BlackJackPlayer::BUSTED:
-		{
+		{//calculating winners when dealer is busted
 			for(int i=0; i < numOfPlayers; ++i){
 				BlackJackPlayer* player = &players[i];
 				if(player->getStatus() != BlackJackPlayer::BUSTED &&
@@ -620,9 +633,10 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
 			break;
 		}
 		case BlackJackPlayer::STANDING:
-		{
-			vector<Player*> losers;
-			vector<Player*> ties;
+		{//calculating winners when dealer is standing, not busted/21.
+			vector<Player*> losers;//gets all players with total less than
+			//dealer's total
+			vector<Player*> ties;//gets all players with total equal to winners
 			int dealerTotal = dealer->getTotal();
 			for(int i=0; i< COMP_PLAYERS_COUNT; i++){
 				Player* player = &players[i];
@@ -655,8 +669,6 @@ void findWinner(Dealer* dealer, BlackJackPlayer players[], int numOfPlayers,
 				}
 			}
 			if(winners.size() == 0){
-				//cout << "\n";
-				//dealer->win();
 				winners.push_back(dealer);
 				if(ties.size()!=0){
 					for(int i=0; i<ties.size(); i++){
@@ -692,7 +704,6 @@ void printRoundStatus(vector<Player*> winners){
 			}
 			cout << "\n" << winners.at(i)->getName() << " wins.";
 		}
-		//cout << result;
 	}
 	cout << "\n";
 	cout << setw(CONSOLE_WIDTH/3) << setfill('-') << " " << endl;
@@ -756,9 +767,10 @@ bool checkDealerBlackJack(Dealer* dealer, vector<Player*>* winners,
 		BlackJackPlayer players[], int noOfPlayers, BlackJackPlayer* user){
 	bool isHiddenCard = true;
 	if(dealer->isFirstCardHighCard()){
-		cout << "\nDealer got " << dealer->getCardsFromHand().at(0)->getCardSuite()
-						<< dealer->getCardsFromHand().at(0)->getCardValue()
-						<< " as the face up card.";
+		cout << "\nDealer got "
+				<< dealer->getCardsFromHand().at(0)->getCardSuite()
+				<< dealer->getCardsFromHand().at(0)->getCardValue()
+				<< " as the face up card.";
 		cout << "\nDealer is going to open the face down card.";
 		isHiddenCard = false;
 		cout << "\nThe face down card is "
@@ -812,8 +824,11 @@ void printWelcome(){
 			<< "Welcome to Blackjack 21 Game" << endl;
 	cout << setw(CONSOLE_WIDTH) << setfill('-') << " " << endl;
 	cout << setw(CONSOLE_WIDTH) << setfill(' ') << left << "Rules:" << endl;
-	string displayStr = "You will be playing against " +
-				to_string(COMP_PLAYERS_COUNT) + " players.";
+	cout << setw(CONSOLE_WIDTH) << left << "You will be playing"
+			" against the dealer." << endl;
+	string displayStr = "There will be " +
+				to_string(COMP_PLAYERS_COUNT) + " players "
+						" apart from you in the table.";
 	cout << setw(CONSOLE_WIDTH) << left << displayStr << endl;
 	cout << setw(CONSOLE_WIDTH)
 		 << left << "You may do card counting by calculating High card"
@@ -840,7 +855,6 @@ void printMenu(Decks* currentDeck, BlackJackPlayer user){
 	cout << setw(15) <<  " " ;
 	cout << "\n\n";
 	cout << "Press H to HIT, S to Stand and U to Surrender.\n";
-//	cout << "Press Q to Quit.\n";
 }
 
 /*
@@ -852,8 +866,6 @@ int isContinue(){
 	cout << "\nPress Y to continue or any other key to exit.\n";
 	char option;
 	option = getchar();
-//	cin.clear();
-//	cin.ignore(144, '\n');
 	if(tolower(option) == 'y'){
 		return 1;
 	}else{

@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : Card.hpp
-// Project	   : Final Project Blackjack 21 Game App
+// Project	   : Group Project Blackjack 21 Game App
 // Author      : Parvathy Mohan
 // Version     : Created on 11/14/2017
 // Copyright   : This program can only be used for project grading purpose
